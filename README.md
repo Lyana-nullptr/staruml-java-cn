@@ -21,7 +21,13 @@
     <li><a href="#简介">简介</a></li>
     <li><a href="#使用">使用</a></li>
     <li><a href="#更新日志">更新日志</a></li>
-    <li><a href="#转换规则">转换规则</a></li>
+    <li>
+      <a href="#转换规则">转换规则</a>
+      <ol>
+        <li><a href="#uml-模型转换为-java-代码">UML 模型转换为 Java 代码</a></li>
+        <li><a href="#java-代码转换为-uml-模型">Java 代码转换为 UML 模型</a></li>
+      </ol>
+    </li>
     <li><a href="#许可">许可</a></li>
   </ol>
 </details>
