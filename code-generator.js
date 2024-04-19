@@ -494,22 +494,22 @@ class JavaCodeGenerator {
         // return statement
         if (returnParam) {
           var returnType = this.getType(returnParam, imports, curPackage)
-          if (returnType === 'boolean') {
+          if (returnType === 'boolean' || returnType === 'Boolean') {
             codeWriter.writeLine('return false;')
-          } else if (returnType === 'int' || returnType === 'long' || returnType === 'short' || returnType === 'byte') {
+          } else if (returnType === 'int' || returnType === 'long' || returnType === 'short'|| returnType === 'byte'
+          || returnType === 'Integer' || returnType === 'Long'|| returnType === 'Short' || returnType === 'Byte') {
             codeWriter.writeLine('return 0;')
-          } else if (returnType === 'float') {
+          } else if (returnType === 'float' || returnType === 'Float') {
             codeWriter.writeLine('return 0.0f;')
-          } else if (returnType === 'double') {
+          } else if (returnType === 'double' || returnType === 'Double') {
             codeWriter.writeLine('return 0.0d;')
-          } else if (returnType === 'char') {
-            codeWriter.writeLine('return "0";')
+          } else if (returnType === 'char' || returnType === 'Character') {
+            codeWriter.writeLine('return \' \';')
           } else if (returnType === 'String') {
             codeWriter.writeLine('return "";')
           } else if (returnType === 'void'){
             codeWriter.writeLine()
-          }
-          else {
+          } else {
             codeWriter.writeLine('return null;')
           }
         }
