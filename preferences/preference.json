@@ -3,60 +3,60 @@
   "name": "Java",
   "schema": {
     "java.gen": {
-      "text": "Java Code Generation",
+      "text": "Java 代码生成",
       "type": "section"
     },
     "java.gen.javaDoc": {
-      "text": "JavaDoc",
-      "description": "Generate JavaDoc comments.",
+      "text": "Java 文档",
+      "description": "将文档特征生成 Java 文档注释。",
       "type": "check",
-      "default": true
+      "default": false
     },
     "java.gen.useTab": {
-      "text": "Use Tab",
-      "description": "Use Tab for indentation instead of spaces.",
+      "text": "使用 Tab",
+      "description": "使用 Tab 来代替空格缩进。",
       "type": "check",
       "default": false
     },
     "java.gen.indentSpaces": {
-      "text": "Indent Spaces",
-      "description": "Number of spaces for indentation.",
+      "text": "缩进空格",
+      "description": "缩进的空格数。",
       "type": "number",
       "default": 4
     },
     "java.rev": {
-      "text": "Java Reverse Engineering",
+      "text": "Java 代码逆向",
       "type": "section"
     },
     "java.rev.association": {
-      "text": "Use Association",
-      "description": "Reverse Java Fields as UML Associations.",
+      "text": "使用关联",
+      "description": "将 Java 字段逆向为 UML 关联。",
       "type": "check",
-      "default": true
+      "default": false
     },
     "java.rev.publicOnly": {
-      "text": "Public Only",
-      "description": "Reverse public members only.",
+      "text": "仅 Public",
+      "description": "仅逆向 public 成员。",
       "type": "check",
       "default": false
     },
     "java.rev.typeHierarchy": {
-      "text": "Type Hierarchy Diagram",
-      "description": "Create a type hierarchy diagram for all classes and interfaces",
+      "text": "类型层次结构图",
+      "description": "为所有类和接口创建一个类型层次结构图。",
       "type": "check",
-      "default": true
+      "default": false
     },
     "java.rev.packageOverview": {
-      "text": "Package Overview Diagram",
-      "description": "Create overview diagram for each package",
+      "text": "包概览图",
+      "description": "为每个包创建包概览图。",
       "type": "check",
-      "default": true
+      "default": false
     },
     "java.rev.packageStructure": {
-      "text": "Package Structure Diagram",
-      "description": "Create a package structure diagram for all packages",
+      "text": "包结构图",
+      "description": "为所有包创建一个包结构图。",
       "type": "check",
-      "default": true
+      "default": false
     }
   }
 }

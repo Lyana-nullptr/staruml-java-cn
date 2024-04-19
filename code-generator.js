@@ -127,7 +127,7 @@ class JavaCodeGenerator {
         fullPath = path.join(basePath, elem.name + '.java')
         codeWriter = new codegen.CodeWriter(this.getIndentString(options))
         this.writePackageDeclaration(codeWriter, elem, options, imports, curPackage)
-        
+
         codeWriter2 = new codegen.CodeWriter(this.getIndentString(options))
         this.writeAnnotationType(codeWriter2, elem, options, imports, curPackage)
 
@@ -135,9 +135,6 @@ class JavaCodeGenerator {
           codeWriter.writeLine()
           imports.forEach(function(v,i,s) {codeWriter.writeLine('import ' + v + ';')})
         }
-        codeWriter.writeLine()
-        codeWriter.writeLine('import java.io.*;')
-        codeWriter.writeLine('import java.util.*;')
         codeWriter.writeLine('\n')
 
         fs.writeFileSync(fullPath, codeWriter.getData() + codeWriter2.getData())
@@ -149,14 +146,11 @@ class JavaCodeGenerator {
 
         codeWriter2 = new codegen.CodeWriter(this.getIndentString(options))
         this.writeClass(codeWriter2, elem, options, imports, curPackage)
-        
+
         if (imports.size > 0) {
           codeWriter.writeLine()
           imports.forEach(function(v,i,s) {codeWriter.writeLine('import ' + v + ';')})
         }
-        codeWriter.writeLine()
-        codeWriter.writeLine('import java.io.*;')
-        codeWriter.writeLine('import java.util.*;')
         codeWriter.writeLine('\n')
 
         fs.writeFileSync(fullPath, codeWriter.getData() + codeWriter2.getData())
@@ -167,17 +161,14 @@ class JavaCodeGenerator {
       fullPath = basePath + '/' + elem.name + '.java'
       codeWriter = new codegen.CodeWriter(this.getIndentString(options))
       this.writePackageDeclaration(codeWriter, elem, options, imports, curPackage)
-      
+
       codeWriter2 = new codegen.CodeWriter(this.getIndentString(options))
       this.writeInterface(codeWriter2, elem, options, imports, curPackage)
-      
+
       if (imports.size > 0) {
         codeWriter.writeLine()
         imports.forEach(function(v,i,s) {codeWriter.writeLine('import ' + v + ';')})
       }
-      codeWriter.writeLine()
-      codeWriter.writeLine('import java.io.*;')
-      codeWriter.writeLine('import java.util.*;')
       codeWriter.writeLine('\n')
 
       fs.writeFileSync(fullPath, codeWriter.getData() + codeWriter2.getData())
@@ -190,7 +181,7 @@ class JavaCodeGenerator {
 
       codeWriter2 = new codegen.CodeWriter(this.getIndentString(options))
       this.writeEnum(codeWriter2, elem, options, imports, curPackage)
-      
+
       if (imports.size > 0) {
         codeWriter.writeLine()
         imports.forEach(function(v,i,s) {codeWriter.writeLine('import ' + v + ';')})
@@ -311,7 +302,7 @@ class JavaCodeGenerator {
       }
     }
   }
-  
+
   /**
    * Return type expression
    * @param {type.Model} elem
@@ -321,16 +312,16 @@ class JavaCodeGenerator {
   getType (elem, imports, curPackage) {
     var _type = 'void'
     var typeElem = null
-    
+
     // type name
     if (elem instanceof type.UMLAssociationEnd) {
       if (elem.reference instanceof type.UMLModelElement && elem.reference.name.length > 0) {
         typeElem = elem.reference
         // inner types need add owner's name as prefix
         _type = getElemPath(typeElem, imports, curPackage)
-      }      
+      }
     } else {
-      if (elem.type instanceof type.UMLModelElement && elem.type.name.length > 0) {        
+      if (elem.type instanceof type.UMLModelElement && elem.type.name.length > 0) {
         typeElem = elem.type
         // inner types need add owner's name as prefix
         _type = getElemPath(typeElem, imports, curPackage)
@@ -338,7 +329,7 @@ class JavaCodeGenerator {
         _type = elem.type
       }
     }
-    
+
     // multiplicity
     if (elem.multiplicity) {
       if (['0..*', '1..*', '*'].includes(elem.multiplicity.trim())) {
@@ -364,7 +355,7 @@ class JavaCodeGenerator {
    */
   writeDoc (codeWriter, text, options, imports, curPackage) {
     var i, len, lines
-    if (options.javaDoc && (typeof text === 'string')) {
+    if (options.javaDoc && (typeof text === 'string') && text.length > 0) {
       lines = text.trim().split('\n')
       codeWriter.writeLine('/**')
       for (i = 0, len = lines.length; i < len; i++) {
@@ -389,28 +380,6 @@ class JavaCodeGenerator {
     }
     if (packagePath) {
       codeWriter.writeLine('package ' + packagePath + ';')
-    }
-  }
-
-  /**
-   * Write Constructor
-   * @param {StringWriter} codeWriter
-   * @param {type.Model} elem
-   * @param {Object} options
-   */
-  writeConstructor (codeWriter, elem, options, imports, curPackage) {
-    if (elem.name.length > 0) {
-      var terms = []
-      // Doc
-      this.writeDoc(codeWriter, 'Default constructor', options, imports, curPackage)
-      // Visibility
-      var visibility = this.getVisibility(elem)
-      if (visibility) {
-        terms.push(visibility)
-      }
-      terms.push(elem.name + '()')
-      codeWriter.writeLine(terms.join(' ') + ' {')
-      codeWriter.writeLine('}')
     }
   }
 
@@ -496,7 +465,7 @@ class JavaCodeGenerator {
         if (elem.name === owner.name) {
           //constructor has no return
         }else{
-          terms.push('void') 
+          terms.push('void')
         }
       }
 
@@ -521,12 +490,7 @@ class JavaCodeGenerator {
       } else {
         codeWriter.writeLine(terms.join(' ') + ' {')
         codeWriter.indent()
-        if (declaredBy === owner) {
-          codeWriter.writeLine('// TODO implement here')
-        } else {
-          codeWriter.writeLine('// TODO implement ' + declaredBy.name + '.' + elem.name + '() here')
-        }
-        
+
         // return statement
         if (returnParam) {
           var returnType = this.getType(returnParam, imports, curPackage)
@@ -542,7 +506,10 @@ class JavaCodeGenerator {
             codeWriter.writeLine('return "0";')
           } else if (returnType === 'String') {
             codeWriter.writeLine('return "";')
-          } else {
+          } else if (returnType === 'void'){
+            codeWriter.writeLine()
+          }
+          else {
             codeWriter.writeLine('return null;')
           }
         }
@@ -600,10 +567,6 @@ class JavaCodeGenerator {
     codeWriter.writeLine()
     codeWriter.indent()
 
-    // Constructor
-    this.writeConstructor(codeWriter, elem, options, imports, curPackage)
-    codeWriter.writeLine()
-
     // Member Variables
     // (from attributes)
     for (i = 0, len = elem.attributes.length; i < len; i++) {
@@ -627,16 +590,20 @@ class JavaCodeGenerator {
     }
 
     // Methods
+    var elemMethodNames = [] // to avoid duplication in extends abstract functions and interface functions
     for (i = 0, len = elem.operations.length; i < len; i++) {
+      elemMethodNames.push(elem.operations[i].name)
       this.writeMethod(codeWriter, elem.operations[i], elem, options, false, false, elem, imports, curPackage)
       codeWriter.writeLine()
     }
-    
+
     // Extends methods
     if (_extends.length > 0) {
       for (i = 0, len = _extends[0].operations.length; i < len; i++) {
         var _modifiers2 = this.getModifiers(_extends[0].operations[i])
-        if (_modifiers2.includes('abstract') === true) {
+        // to avoid duplication in extends abstract functions and interface functions
+        if (_modifiers2.includes('abstract') === true && !elemMethodNames.includes(_extends[0].operations[i].name)) {
+          elemMethodNames.push(_extends[0].operations[i].name)
           this.writeMethod(codeWriter, _extends[0].operations[i], elem, options, false, false, _extends[0], imports, curPackage)
           codeWriter.writeLine()
         }
@@ -658,14 +625,17 @@ class JavaCodeGenerator {
     }
 
     // collect valid super interfaces
-    _allImplements.splice(0,_allImplements.length)    
+    _allImplements.splice(0,_allImplements.length)
     this.collectImplements(elem, _allImplementsSet, _allImplements)
 
     // write methods in valid super interfaces
-    for (var j = 0; j < _allImplements.length; j++) {
-      for (i = 0, len = _allImplements[j].operations.length; i < len; i++) {
-        this.writeMethod(codeWriter, _allImplements[j].operations[i], elem, options, false, false, _allImplements[j], imports, curPackage)
+    for (const _allImplement of _allImplements) {
+      for (const operation of _allImplement.operations) {
+        if (!elemMethodNames.includes(operation.name)) {
+          elemMethodNames.push(operation.name)
+        this.writeMethod(codeWriter, operation, elem, options, false, false, _allImplement, imports, curPackage)
         codeWriter.writeLine()
+        }
       }
     }
 

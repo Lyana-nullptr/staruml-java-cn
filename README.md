@@ -1,182 +1,253 @@
-# Java Extension for StarUML
+<a name="readme-top"></a>
 
-This extension for StarUML(http://staruml.io) support to generate Java code from UML model and to reverse Java code to UML model. Install this extension from Extension Manager of StarUML.
+<div align="center">
+  <h1>StarUML 的中文 Java 扩展</h1>
+  <h4>Java 代码生成和逆向工具。</h4>
+  <p>
+    <a href="stargazers">
+      <img src="https://shields.io/github/stars/SeagullOddy/staruml-java-cn?style=flat" />
+    </a>
+    <a href="LICENSE">
+      <img src="https://shields.io/github/license/SeagullOddy/staruml-java-cn" />
+    </a>
+  </p>
+  <p>
+    <a href="#简洁">简介</a> •
+    <a href="#使用">使用</a> •
+    <a href="#更新日志">更新日志</a> •
+    <a href="#许可">许可</a>
+  </p>
+</div>
 
-> :warning: This extensions do not provide perfect reverse engineering which is a test and temporal feature. If you need a complete reverse engineering feature, please check other professional reverse engineering tools.
+<details>
+  <summary>目录</summary>
+  <ol>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#使用">使用</a></li>
+    <li><a href="#更新日志">更新日志</a></li>
+    <li><a href="#转换规则">转换规则</a></li>
+    <li><a href="#许可">许可</a></li>
+  </ol>
+</details>
 
-> :white_check_mark: This extension is based on Java 1.7 Specification.
+## 简介
 
-## Java Code Generation
+本 [StarUML](https://staruml.io) 扩展支持用 UML 模型生成 Java 代码，以及将 Java 代码逆向为 UML模型。
 
-1. Click the menu (`Tools > Java > Generate Code...`)
-2. Select a base model (or package) that will be generated to Java.
-3. Select a folder where generated Java source files will be placed.
+> :warning: 本扩展基于 [Java Extension for StarUML](https://github.com/staruml/staruml-java) 扩展二次开发。本扩展的功能不完善，如果您需要完美的 Java 代码生成/逆向功能，请查看其他更专业的工具。
 
-Belows are the rules to convert from UML model elements to Java source codes.
+> :white_check_mark: 本扩展基于 Java 1.7 规范。
 
-### UMLPackage
+## 使用
 
-- converted to _Java Package_ (as a folder).
+1. 在 StarUML 的扩展管理器中输入仓库地址 `https://github.com/SeagullOddy/staruml-java-cn` 来安装本扩展
+2. Java 代码生成
+   <details>
+    <summary>详细步骤</summary>
+    <ol>
+      <li>点击菜单栏的<code>工具 > Java > 生成代码……</code></li>
+      <li>选择一个用来生成 Java 代码的模型（或包）</li>
+      <li>选择存放代码的目录</li>
+      <li>完成！生成的代码会被存放在你选择的目录中</li>
+    </ol>
+   </details>
+3. Java 代码逆向
+   <details>
+    <summary>详细步骤</summary>
+    <ol>
+      <li>点击菜单栏的<code>工具 > Java > 代码逆向……</code></li>
+      <li>选择一个存放着代码的目录</li>
+      <li>完成！逆向出来的模型会被存放在名为 <code>Java 逆向</code> 的模型中</li>
+    </ol>
+   </details>
 
-### UMLClass
+## 更新日志
 
-- converted to _Java Class_. (as a separate `.java` file)
-- `visibility` to one of modifiers `public`, `protected`, `private` and none.
-- `isAbstract` property to `abstract` modifier.
-- `isFinalSpecialization` and `isLeaf` property to `final` modifier.
-- Default constructor is generated.
-- All contained types (_UMLClass_, _UMLInterface_, _UMLEnumeration_) are generated as inner type definition.
-- Documentation property to JavaDoc comment.
+### v0.0.0
 
-### UMLAttribute
+- 翻译扩展为中文
+- 更改默认设置，开箱即用
+  - `preferences/preference.json`
+    - "java.gen.javaDoc": `true` -> `false`
+    - "java.rev.association": `true` -> `false`
+    - "java.rev.typeHierarchy": `true` -> `false`
+    - "java.rev.packageOverview": `true` -> `false`
+    - "java.rev.packageStructure": `true` -> `false`
+- 优化代码生成逻辑
+  - 移除：不再默认导入 java.io、java.util 包
+  - 移除：类中不再生成默认构造方法
+  - 移除：方法中不再默认生成 TODO 注释
+  - 移除：void 方法中不再生成 return 语句
+  - 优化：不再生成空注释
+  - 修复：继承并实现抽象类中抽象方法（或接口中的方法）时，出现方法重复生成的问题
+- 优化代码逆向逻辑
+  - 移除：将 _UMLOperation_ 逆向为构造方法时添加构造型 `<<constructor>>`
 
-- converted to _Java Field_.
-- `visibility` property to one of modifiers `public`, `protected`, `private` and none.
-- `name` property to field identifier.
-- `type` property to field type.
-- `multiplicity` property to array type.
-- `isStatic` property to `static` modifier.
-- `isLeaf` property to `final` modifier.
-- `defaultValue` property to initial value.
-- Documentation property to JavaDoc comment.
+## 转换规则
 
-### UMLOperation
+### UML 模型转换为 Java 代码
 
-- converted to _Java Methods_.
-- `visibility` property to one of modifiers `public`, `protected`, `private` and none.
-- `name` property to method identifier.
-- `isAbstract` property to `abstract` modifier.
-- `isStatic` property to `static` modifier.
-- _UMLParameter_ to _Java Method Parameters_.
-- _UMLParameter_'s name property to parameter identifier.
-- _UMLParameter_'s type property to type of parameter.
-- _UMLParameter_ with `direction` = `return` to return type of method. When no return parameter, `void` is used.
-- _UMLParameter_ with `isReadOnly` = `true` to `final` modifier of parameter.
-- Documentation property to JavaDoc comment.
+下面是 UML 模型元素转换为 Java 源代码的规则。
 
-### UMLInterface
+#### UMLPackage
 
-- converted to _Java Interface_. (as a separate `.java` file)
-- `visibility` property to one of modifiers `public`, `protected`, `private` and none.
-- Documentation property to JavaDoc comment.
+- 转换为 _Java Package_
 
-### UMLEnumeration
+#### UMLClass
 
-- converted to _Java Enum_. (as a separate `.java` file)
-- `visibility` property to one of modifiers `public`, `protected`, `private` and none.
-- _UMLEnumerationLiteral_ to literals of enum.
+- 转换为 _Java Class_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- `isAbstract` 特征为真时，生成 `abstract` 修饰符
+- `isFinalSpecialization` 或 `isLeaf` 特征为真时，生成 `final` 修饰符
+- 所有包含的类型（_UMLClass_，_UMLInterface_，_UMLEnumeration_）均转换为内部类型定义
+- 文档特征转换为 Java 文档注释（要求启用偏好设置中的 **“生成 Java 文档注释”**）
 
-### UMLAssociationEnd
+#### UMLAttribute
 
-- converted to _Java Field_.
-- `visibility` property to one of modifiers `public`, `protected`, `private` and none.
-- `name` property to field identifier.
-- `type` property to field type.
-- If `multiplicity` is one of `0..*`, `1..*`, `*`, then collection type (`java.util.List<>` when `isOrdered` = `true` or `java.util.Set<>`) is used.
-- `defaultValue` property to initial value.
-- Documentation property to JavaDoc comment.
+- 转换为 _Java Field_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- `name` 特征转换为字段标识符
+- `type` 特征转换为字段类型
+- `multiplicity` 特征转换为数组类型
+- `isStatic` 特征为真时，生成 `static` 修饰符
+- `isLeaf` 特征为真时，生成 `final` 修饰符
+- `defaultValue` 特征转换为初始值
+- 文档特征转换为 Java 文档注释（要求启用偏好设置中的 **“生成 Java 文档注释”**）
 
-### UMLGeneralization
+#### UMLOperation
 
-- converted to _Java Extends_ (`extends`).
-- Allowed only for _UMLClass_ to _UMLClass_, and _UMLInterface_ to _UMLInterface_.
+- 转换为 _Java Methods_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- `name` 特征转换为方法标识符
+- `isAbstract` 特征为真时，生成 `abstract` 修饰符
+- `isStatic` 特征为真时，生成 `static` 修饰符
+- _UMLParameter_ 转换为 _Java Method Parameters_
+- _UMLParameter_ 的名称特征转换为参数标识符
+- _UMLParameter_ 的类型特征转换为参数类型
+- `direction` 特性为 `return` 的 _UMLParameter_ 转换为方法的返回值类型，没有这个参数时方法的返回值类型为 `void`
+- `isReadOnly` 特性为真的 _UMLParameter_ 转换为带 `final` 修饰符的参数
+- 文档特征转换为 Java 文档注释（要求启用偏好设置中的 **“生成 Java 文档注释”**）
 
-### UMLInterfaceRealization
+#### UMLInterface
 
-- converted to _Java Implements_ (`implements`).
-- Allowed only for _UMLClass_ to _UMLInterface_.
+- 转换为 _Java Interface_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- 文档特征转换为 Java 文档注释（要求启用偏好设置中的 **“生成 Java 文档注释”**）
 
-## Java Reverse Engineering
+#### UMLEnumeration
 
-1. Click the menu (`Tools > Java > Reverse Code...`)
-2. Select a folder containing Java source files to be converted to UML model elements.
-3. `JavaReverse` model will be created in the Project.
+- 转换为 _Java Enum_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- _UMLEnumerationLiteral_ 转换为枚举中的常量
 
-Belows are the rules to convert from Java source code to UML model elements.
+#### UMLAssociationEnd
 
-### Java Package
+- 转换为 _Java Field_
+- `visibility` 特征转换为可见性修饰符 `public`，`protected`，`private` 或无修饰符
+- `name` 特征转换为字段标识符
+- `type` 特征转换为字段类型
+- If `multiplicity` is one of `0..*`, `1..*`, `*`, then collection type (`java.util.List<>` when `isOrdered` = `true` or `java.util.Set<>`) is used
+- `defaultValue` 特征转换为初始值
+- 文档特征转换为 Java 文档注释（要求启用偏好设置中的 **“生成 Java 文档注释”**）
 
-- converted to _UMLPackage_.
+#### UMLGeneralization
 
-### Java Class
+- 转换为 _Java Extends_
+- 只允许在 _UMLClass_ 指向 _UMLClass_ 或 _UMLInterface_ 指向 _UMLInterface_ 时使用
 
-- converted to _UMLClass_.
-- Class name to `name` property.
-- Type parameters to _UMLTemplateParameter_.
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- `abstract` modifier to `isAbstract` property.
-- `final` modifier to `isLeaf` property.
-- Constructors to _UMLOperation_ with stereotype `<<constructor>>`.
-- All contained types (_UMLClass_, _UMLInterface_, _UMLEnumeration_) are generated as inner type definition.
-- JavaDoc comment to Documentation.
+#### UMLInterfaceRealization
 
-### Java Field (to UMLAttribute)
+- 转换为 _Java Implements_
+- 只允许在 _UMLClass_ 指向 _UMLInterface_ 时使用
 
-- converted to _UMLAttribute_ if **"Use Association"** is **off** in Preferences.
-- Field type to `type` property.
+### Java 代码转换为 UML 模型
 
-  - Primitive Types : `type` property has the primitive type name as string.
-  - `T[]`(array), `java.util.List<T>`, `java.util.Set<T>` or its decendants: `type` property refers to `T` with multiplicity `*`.
-  - `T` (User-Defined Types) : `type` property refers to the `T` type.
-  - Otherwise : `type` property has the type name as string.
+下面是 Java 源代码转换为 UML 模型元素的规则。
 
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- `static` modifier to `isStatic` property.
-- `final` modifier to `isLeaf` and `isReadOnly` property.
-- `transient` modifier to a Tag with `name="transient"` and `checked=true` .
-- `volatile` modifier to a Tag with `name="volatile"` and `checked=true`.
-- Initial value to `defaultValue` property.
-- JavaDoc comment to Documentation.
+#### Java Package
 
-### Java Field (to UMLAssociation)
+- 转换为 _UMLPackage_
 
-- converted to (Directed) _UMLAssociation_ if **"Use Association"** is **on** in Preferences and there is a UML type element (_UMLClass_, _UMLInterface_, or _UMLEnumeration_) correspond to the field type.
-- Field type to `end2.reference` property.
+#### Java Class
 
-  - `T[]`(array), `java.util.List<T>`, `java.util.Set<T>` or its decendants: `reference` property refers to `T` with multiplicity `*`.
-  - `T` (User-Defined Types) : `reference` property refers to the `T` type.
-  - Otherwise : converted to _UMLAttribute_, not _UMLAssociation_.
+- 转换为 _UMLClass_
+- 类名转换为 `name` 特征
+- 类型参数（泛型）转换为 _UMLTemplateParameter_
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+- `abstract` 修饰符转换为 `isAbstract` 特征
+- `final` 修饰符转换为 `isLeaf` 特征
+- 所有包含的类型（_UMLClass_，_UMLInterface_，_UMLEnumeration_）均转换为内部类型定义
+- Java 文档注释转换为文档特征
 
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- JavaDoc comment to Documentation.
+#### Java Field (to UMLAttribute)
 
-### Java Method
+- 转换为 _UMLAttribute_（如果关闭了偏好设置中的 **“使用关联”**）
+- Field type to `type` property
 
-- converted to _UMLOperation_.
-- Type parameters to _UMLTemplateParameter_.
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- `static` modifier to `isStatic` property.
-- `abstract` modifier to `isAbstract` property.
-- `final` modifier to `isLeaf` property.
-- `synchronized` modifier to `concurrency="concurrent"` property.
-- `native` modifier to a Tag with `name="native"` and `checked=true`.
-- `strictfp` modifier to a Tag with `name="strictfp"` and `checked=true`.
-- `throws` clauses to `raisedExceptions` property.
-- JavaDoc comment to Documentation.
+  - Primitive Types : `type` property has the primitive type name as string
+  - `T[]`(array), `java.util.List<T>`, `java.util.Set<T>` or its decendants: `type` property refers to `T` with multiplicity `*`
+  - `T` (User-Defined Types) : `type` property refers to the `T` type
+  - Otherwise : `type` property has the type name as string
 
-### Java Interface
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+-  `static` 修饰符转换为 `isStatic` 特征
+-  `final` 修饰符转换为 `isLeaf` 特征
+- `transient` modifier to a Tag with `name="transient"` and `checked=true`
+- `volatile` modifier to a Tag with `name="volatile"` and `checked=true`
+- 初始值转换为 `defaultValue` 特征
+- Java 文档注释转换为文档特征
 
-- converted to _UMLInterface_.
-- Class name to `name` property.
-- Type parameters to _UMLTemplateParameter_.
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- JavaDoc comment to Documentation.
+#### Java Field (to UMLAssociation)
 
-### Java Enum
+- 转换为（Directed） _UMLAssociation_（如果开启了偏好设置中的 **“使用关联”**，并且有一个 UML 类型的元素 _UMLClass_，_UMLInterface_ 或 _UMLEnumeration_ 对应于字段类型）
+- Field type to `end2.reference` property
 
-- converted to _UMLEnumeration_.
-- Enum name to `name` property.
-- Type parameters to _UMLTemplateParameter_.
-- Access modifier `public`, `protected` and `private` to `visibility` property.
-- Enum constants are converted to _UMLEnumerationLiteral_.
-- JavaDoc comment to Documentation.
+  - `T[]`(array), `java.util.List<T>`, `java.util.Set<T>` or its decendants: `reference` property refers to `T` with multiplicity `*`
+  - `T` (User-Defined Types) : `reference` property refers to the `T` type
+  - Otherwise : 转换为 _UMLAttribute_, not _UMLAssociation_
 
-### Java AnnotationType
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+- Java 文档注释转换为文档特征
 
-- converted to _UMLClass_ with stereotype `<<annotationType>>`.
-- Annotation type elements to _UMLOperation_. (Default value to a Tag with `name="default"`).
-- JavaDoc comment to Documentation.
+#### Java Method
 
----
+- 转换为 _UMLOperation_
+- 类型参数（泛型）转换为 _UMLTemplateParameter_
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+-  `static` 修饰符转换为 `isStatic` 特征
+-  `abstract` 修饰符转换为 `isAbstract` 特征
+-  `final` 修饰符转换为 `isLeaf` 特征
+- `synchronized` modifier to `concurrency="concurrent"` property
+- `native` modifier to a Tag with `name="native"` and `checked=true`
+- `strictfp` modifier to a Tag with `name="strictfp"` and `checked=true`
+- `throws` clauses to `raisedExceptions` property
+- Java 文档注释转换为文档特征
 
-Licensed under the MIT license (see LICENSE file).
+#### Java Interface
+
+- 转换为 _UMLInterface_
+- 类名转换为 `name` 特征
+- 类型参数（泛型）转换为 _UMLTemplateParameter_
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+- Java 文档注释转换为文档特征
+
+#### Java Enum
+
+- 转换为 _UMLEnumeration_
+- Enum name to `name` property
+- 类型参数（泛型）转换为 _UMLTemplateParameter_
+- 可见性修饰符 `public`，`protected` 和 `private` 转换为 `visibility` 特征
+- Enum constants are 转换为 _UMLEnumerationLiteral_
+- Java 文档注释转换为文档特征
+
+#### Java AnnotationType
+
+- 转换为 _UMLClass_ with stereotype `<<annotationType>>`
+- Annotation type elements to _UMLOperation_ (Default value to a Tag with `name="default"`)
+- Java 文档注释转换为文档特征
+
+## 许可
+
+[MIT](LICENSE)。
+
+

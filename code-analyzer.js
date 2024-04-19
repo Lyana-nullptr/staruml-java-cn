@@ -85,7 +85,7 @@ class JavaCodeAnalyzer {
   constructor () {
     /** @member {type.UMLModel} */
     this._root = new type.UMLModel()
-    this._root.name = 'JavaReverse'
+    this._root.name = 'Java 逆向'
 
     /** @member {Array.<File>} */
     this._files = []
@@ -1037,11 +1037,6 @@ class JavaCodeAnalyzer {
     }
     if (methodNode.modifiers && methodNode.modifiers.includes('strictfp')) {
       this._addTag(_operation, type.Tag.TK_BOOLEAN, 'strictfp', true)
-    }
-
-    // Constructor
-    if (isConstructor) {
-      _operation.stereotype = 'constructor'
     }
 
     // Stuff to do here to grab the correct Javadoc and put it into parameters and return

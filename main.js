@@ -54,12 +54,12 @@ function _handleGenerate (base, path, options) {
   options = options || getGenOptions()
   // If base is not assigned, popup ElementPicker
   if (!base) {
-    app.elementPickerDialog.showDialog('Select a base model to generate codes', null, type.UMLPackage).then(function ({buttonId, returnValue}) {
+    app.elementPickerDialog.showDialog('选择用来生成的模型', null, type.UMLPackage).then(function ({buttonId, returnValue}) {
       if (buttonId === 'ok') {
         base = returnValue
         // If path is not assigned, popup Open Dialog to select a folder
         if (!path) {
-          var files = app.dialogs.showOpenDialog('Select a folder where generated codes to be located', null, null, { properties: [ 'openDirectory' ] })
+          var files = app.dialogs.showOpenDialog('选择存放代码的目录', null, null, { properties: [ 'openDirectory' ] })
           if (files && files.length > 0) {
             path = files[0]
             codeGenerator.generate(base, path, options)
@@ -72,7 +72,7 @@ function _handleGenerate (base, path, options) {
   } else {
     // If path is not assigned, popup Open Dialog to select a folder
     if (!path) {
-      var files = app.dialogs.showOpenDialog('Select a folder where generated codes to be located', null, null, { properties: [ 'openDirectory' ] })
+      var files = app.dialogs.showOpenDialog('选择存放代码的目录', null, null, { properties: [ 'openDirectory' ] })
       if (files && files.length > 0) {
         path = files[0]
         codeGenerator.generate(base, path, options)
@@ -94,7 +94,7 @@ function _handleReverse (basePath, options) {
   options = getRevOptions()
   // If basePath is not assigned, popup Open Dialog to select a folder
   if (!basePath) {
-    var files = app.dialogs.showOpenDialog('Select Folder', null, null, { properties: [ 'openDirectory' ] })
+    var files = app.dialogs.showOpenDialog('选择代码所在目录', null, null, { properties: [ 'openDirectory' ] })
     if (files && files.length > 0) {
       basePath = files[0]
       codeAnalyzer.analyze(basePath, options)

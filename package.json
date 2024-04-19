@@ -1,17 +1,17 @@
 {
-  "name": "staruml.java",
+  "name": "staruml.java.cn",
   "title": "Java",
-  "description": "Java code generation and reverse engineering.",
-  "homepage": "https://github.com/staruml/staruml-java",
-  "issues": "https://github.com/staruml/staruml-java/issues",
+  "description": "Java 代码生成和逆向工具。",
+  "homepage": "https://github.com/SeagullOddy/staruml-java-cn",
+  "issues": "https://github.com/SeagullOddy/staruml-java-cn/issues",
   "keywords": [
-    "java"
+    "java", "chinese"
   ],
-  "version": "0.9.5",
+  "version": "0.0.0-dev.1",
   "author": {
-    "name": "Minkyu Lee",
-    "email": "niklaus.lee@gmail.com",
-    "url": "https://github.com/niklauslee"
+    "name": "SeagullOddy",
+    "email": "shabbyacc@outlook.com",
+    "url": "https://github.com/SeagullOddy"
   },
   "license": "MIT",
   "engines": {
