@@ -4,12 +4,8 @@
   <h1>StarUML 的中文 Java 扩展</h1>
   <h4>Java 代码生成和逆向工具。</h4>
   <p>
-    <a href="stargazers">
-      <img src="https://shields.io/github/stars/SeagullOddy/staruml-java-cn?style=flat" />
-    </a>
-    <a href="LICENSE">
-      <img src="https://shields.io/github/license/SeagullOddy/staruml-java-cn" />
-    </a>
+    <a href="stargazers"><img src="https://shields.io/github/stars/SeagullOddy/staruml-java-cn?style=flat" /></a>
+    <a href="LICENSE"><img src="https://shields.io/github/license/SeagullOddy/staruml-java-cn" /></a>
   </p>
   <p>
     <a href="#简洁">简介</a> •
@@ -38,6 +34,8 @@
 
 > :white_check_mark: 本扩展基于 Java 1.7 规范。
 
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
+
 ## 使用
 
 1. 在 StarUML 的扩展管理器中输入仓库地址 `https://github.com/SeagullOddy/staruml-java-cn` 来安装本扩展
@@ -61,6 +59,8 @@
     </ol>
    </details>
 
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
+
 ## 更新日志
 
 ### v0.0.0
@@ -82,6 +82,8 @@
   - 修复：继承并实现抽象类中抽象方法（或接口中的方法）时，出现方法重复生成的问题
 - 优化代码逆向逻辑
   - 移除：将 _UMLOperation_ 逆向为构造方法时添加构造型 `<<constructor>>`
+
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
 
 ## 转换规则
 
@@ -159,6 +161,8 @@
 
 - 转换为 _Java Implements_
 - 只允许在 _UMLClass_ 指向 _UMLInterface_ 时使用
+
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
 
 ### Java 代码转换为 UML 模型
 
@@ -246,8 +250,10 @@
 - Annotation type elements to _UMLOperation_ (Default value to a Tag with `name="default"`)
 - Java 文档注释转换为文档特征
 
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
+
 ## 许可
 
 [MIT](LICENSE)。
 
-
+<p align="right">（<a href="#readme-top">返回顶部</a>）</p>
