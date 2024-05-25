@@ -2,16 +2,16 @@
   "name": "staruml.java.cn",
   "title": "Java",
   "description": "Java 代码生成和逆向工具。",
-  "homepage": "https://github.com/SeagullOddy/staruml-java-cn",
-  "issues": "https://github.com/SeagullOddy/staruml-java-cn/issues",
+  "homepage": "https://github.com/Charlott2/staruml-java-cn",
+  "issues": "https://github.com/Charlott2/staruml-java-cn/issues",
   "keywords": [
     "java", "chinese"
   ],
   "version": "0.0.0-dev.2",
   "author": {
-    "name": "SeagullOddy",
+    "name": "Charlott2",
     "email": "shabbyacc@outlook.com",
-    "url": "https://github.com/SeagullOddy"
+    "url": "https://github.com/Charlott2"
   },
   "license": "MIT",
   "engines": {
