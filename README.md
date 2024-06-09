@@ -4,7 +4,7 @@
   <h1>StarUML 的中文 Java 扩展</h1>
   <h4>Java 代码生成和逆向工具。</h4>
   <p>
-    <a href="stargazers"><img src="https://shields.io/github/stars/Charlott2/staruml-java-cn?style=flat" /></a>
+    <a href="../../stargazers"><img src="https://shields.io/github/stars/Charlott2/staruml-java-cn?style=flat" /></a>
     <a href="LICENSE"><img src="https://shields.io/github/license/Charlott2/staruml-java-cn" /></a>
   </p>
   <p>
