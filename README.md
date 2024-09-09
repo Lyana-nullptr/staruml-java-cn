@@ -4,8 +4,8 @@
   <h1>StarUML 的中文 Java 扩展</h1>
   <h4>Java 代码生成和逆向工具。</h4>
   <p>
-    <a href="../../stargazers"><img src="https://shields.io/github/stars/Charlott2/staruml-java-cn?style=flat" /></a>
-    <a href="LICENSE"><img src="https://shields.io/github/license/Charlott2/staruml-java-cn" /></a>
+    <a href="../../stargazers"><img src="https://shields.io/github/stars/CherylVolta/staruml-java-cn?style=flat" /></a>
+    <a href="LICENSE"><img src="https://shields.io/github/license/CherylVolta/staruml-java-cn" /></a>
   </p>
   <p>
     <a href="#简洁">简介</a> •
@@ -44,7 +44,7 @@
 
 ## 使用
 
-1. 在 StarUML 的扩展管理器中输入仓库地址 `https://github.com/Charlott2/staruml-java-cn` 来安装本扩展
+1. 在 StarUML 的扩展管理器中输入仓库地址 `https://github.com/CherylVolta/staruml-java-cn` 来安装本扩展
 2. Java 代码生成
    <details>
     <summary>详细步骤</summary>
